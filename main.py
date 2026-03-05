@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from app.api.scan import router as scan_router
+from app.core.database import engine, Base
+from app.models.scan import ScanHistory
 
-# Carrega as variáveis de ambiente (.env)
+Base.metadata.create_all(bind=engine)
+
 load_dotenv()
 
 app = FastAPI(
@@ -11,7 +14,6 @@ app = FastAPI(
     version="0.2.0"
 )
 
-# Adicionamos as rotas que criamos no passo 2
 app.include_router(scan_router)
 
 @app.get("/")
