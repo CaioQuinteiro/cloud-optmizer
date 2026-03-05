@@ -1,20 +1,22 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
+from app.api.scan import router as scan_router
 
-# Inicializa a nossa aplicação
+# Carrega as variáveis de ambiente (.env)
+load_dotenv()
+
 app = FastAPI(
     title="Cloud Optimizer SaaS",
-    description="API para análise e redução de custos no GCP",
-    version="0.1.0"
+    description="API Modular para análise de custos no GCP",
+    version="0.2.0"
 )
 
+# Adicionamos as rotas que criamos no passo 2
+app.include_router(scan_router)
+
 @app.get("/")
-async def root():
+def root():
     return {
         "status": "online",
-        "message": "Motor do Cloud Optimizer rodando perfeitamente!",
-        "gcp_connected": False # Vamos mudar isso em breve
+        "message": "Cloud Optimizer estruturado e rodando!"
     }
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
